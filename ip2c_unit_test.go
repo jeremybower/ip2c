@@ -1,3 +1,5 @@
+// +build unit
+
 package ip2c
 
 import (
@@ -9,79 +11,6 @@ import (
 	"testing"
 	"time"
 )
-
-//------------------------------------------------------------------------------
-// Integration tests
-//------------------------------------------------------------------------------
-
-func TestLookupIPv4UsingIntegration(t *testing.T) {
-	if testing.Short() {
-		t.Skip("skipping integration test in short mode.")
-	}
-
-	client := NewClient()
-	countryInfo, err := client.LookupIPv4("1.1.1.1")
-	if err != nil {
-		t.Fatal(err)
-	}
-
-	if countryInfo == nil {
-		t.Error("Nil response from client")
-	}
-}
-
-func TestLookupDecimalUsingIntegration(t *testing.T) {
-	if testing.Short() {
-		t.Skip("skipping integration test in short mode.")
-	}
-
-	// "1.1.1.1" = 16843009
-	client := NewClient()
-	countryInfo, err := client.LookupDecimal(16843009)
-	if err != nil {
-		t.Fatal(err)
-	}
-
-	if countryInfo == nil {
-		t.Error("Nil response from client")
-	}
-}
-
-func TestLookupSelfUsingIntegration(t *testing.T) {
-	if testing.Short() {
-		t.Skip("skipping integration test in short mode.")
-	}
-
-	client := NewClient()
-	countryInfo, err := client.LookupSelf()
-	if err != nil {
-		t.Fatal(err)
-	}
-
-	if countryInfo == nil {
-		t.Error("Nil response from client")
-	}
-}
-
-func TestErrWrongInputUsingIntegration(t *testing.T) {
-	if testing.Short() {
-		t.Skip("skipping integration test in short mode.")
-	}
-
-	client := NewClient()
-	countryInfo, err := client.LookupIPv4("a.b.c.d")
-	if err != ErrWrongInput {
-		t.Errorf("Expected ErrWrongInput, but found: %s", err)
-	}
-
-	if countryInfo != nil {
-		t.Error("Expected nil country info for wrong input")
-	}
-}
-
-//------------------------------------------------------------------------------
-// Mock tests
-//------------------------------------------------------------------------------
 
 func setupMockServer() (*http.ServeMux, *httptest.Server, func()) {
 	mux := http.NewServeMux()
@@ -96,8 +25,11 @@ func TestTimeoutErrorUsingMockServer(t *testing.T) {
 	mux, server, shutdown := setupMockServer()
 	defer shutdown()
 
+	ch := make(chan int)
+	defer func() { ch <- 0 }()
+
 	mux.HandleFunc("/self", func(w http.ResponseWriter, r *http.Request) {
-		time.Sleep(3 * time.Second)
+		_ = <-ch
 		w.WriteHeader(http.StatusOK)
 		fmt.Fprint(w, "1;CA;CAN;Canada")
 	})
@@ -105,11 +37,12 @@ func TestTimeoutErrorUsingMockServer(t *testing.T) {
 	opts := NewOptions()
 	opts.BaseURL = server.URL
 	opts.HTTPClient = &http.Client{
-		Timeout: 1 * time.Second,
+		Timeout: 10 * time.Millisecond,
 	}
 	client := NewClientWithOptions(opts)
 
 	countryInfo, err := client.LookupSelf()
+
 	if err == nil {
 		t.Error("Expected timeout error")
 	}
