@@ -4,5 +4,6 @@ go:
   - "1.10"
 
 script:
-  - make unit
-  - make integration
+  - go test -cover -tags="integration unit" | tee cover.out
+  - coverage_pct=$(awk '$1 == "coverage:" {print $2}' cover.out)
+  - echo $coverage_pct
