@@ -1,3 +1,6 @@
+[![Build Status](https://img.shields.io/travis/jeremybower/go-ip2c/master.svg?style=flat-square)](https://travis-ci.org/jeremybower/go-ip2c)
+[![Coverage Status](https://img.shields.io/codecov/c/github/jeremybower/go-ip2c/master.svg?style=flat-square)](https://codecov.io/gh/jeremybower/go-ip2c)
+
 # go-ip2c
 
 A Go library for using IP2C to lookup country information for an IP Address.
