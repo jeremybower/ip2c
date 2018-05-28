@@ -3,7 +3,7 @@
 
 # go-ip2c
 
-A Go library for using [IP2C](ip2c.org) to lookup country information for an IP Address.
+A Go library for using [IP2C](https://ip2c.org) to lookup country information for an IP Address.
 
 ### Installing
 
