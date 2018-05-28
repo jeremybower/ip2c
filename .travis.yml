@@ -6,6 +6,6 @@ language: go
 go:
 - '1.10'
 script:
-- go test -cover -tags="integration unit" | tee cover.out
-- coverage_pct=$(awk '$1 == "coverage:" {print $2}' cover.out)
-- echo $coverage_pct
+- go test -tags="integration unit" -race -coverprofile=coverage.txt -covermode=atomic
+after_success:
+  - bash <(curl -s https://codecov.io/bash)
