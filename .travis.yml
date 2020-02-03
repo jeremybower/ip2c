@@ -6,6 +6,7 @@ language: go
 go:
 - '1.10'
 script:
-- go test -tags="integration unit" -race -coverprofile=coverage.txt -covermode=atomic
+- make test
 after_success:
+- cp coverage/coverage.out coverage.txt
 - bash <(curl -s https://codecov.io/bash)
