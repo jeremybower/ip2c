@@ -1,3 +1,3 @@
-module github.com/jeremybower/go-ip2c
+module github.com/jeremybower/ip2c
 
 go 1.14
