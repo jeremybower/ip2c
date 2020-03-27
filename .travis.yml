@@ -1,10 +1,8 @@
 notifications:
   email: false
-  slack:
-    secure: rW2JPP3rq4+8vFQC3jm3qb8YcqaUJshbK9BUOhxuHgYrkpC4CtfUxOLHYcABXmlmjWckBhCQGRCnVdOZqNt30qJChdnvZnnACbrS8qdeyMejkl76QEInXw5XEShHzivKOZkSZ2BSGcBz7nBLNsQl4okKh8xnDseFqKkdvWG0zxIGW+SEiB7vq1CzJ63M+Plr98HhvLNs8+yiTjLenK8ik9iOwJsw3urUfCkeeHf1yOelmVWyywD7COcJLT6ndVg/aL5SAOPSGD1klaaqfnGEBLzgBkRGnFJ50mwxbu9fj8bt+VYCWfDrDx9ktm3uFAvClzvaHZFiL5dyQHf77kXafT7s313MdxTCJqsWjzRMzdXi1q+M2etfAZ0wvZ21jE3Xj5EpMK866NOkicuO1+qJ0qGpVXCYIfHSWObn7492YVA9AMjebtiMtdpWZrjZhHOy/9xFuXnt/cHMGsbKC3E3lDR0blC7NX9Pxcpkbk048m0VzCDQzdfNoDabtgiMeqfZUg1RhKNtWraL6Gey8kCkTklEPU2lgl9k6vJSo5o6g3Ezd3VWCdUqSkNGA+LXZVK3AkQ7q7m+h+q3M/F6XT+Kg4xfg3YWWZnuVMHT7kMYjmOWFLkyNtxiuMoeUjlkFPEvQyDZezREwL5C9MwvkAJ2MtA3zo+TFZY3fsUYrA/Ca1o=
 language: go
 go:
-- '1.13'
+- '1.14'
 script:
 - make test
 after_success:
