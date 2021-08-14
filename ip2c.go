@@ -85,12 +85,12 @@ func (c *clientImpl) lookup(url string) (*CountryInfo, error) {
 	if err != nil {
 		return nil, err
 	}
+	defer resp.Body.Close()
 
 	if resp.StatusCode != 200 {
 		return nil, fmt.Errorf("Unexpected response. Expected 200 but found %d", resp.StatusCode)
 	}
 
-	defer resp.Body.Close()
 	body, err := ioutil.ReadAll(c.opts.ReaderFunc(resp.Body))
 	if err != nil {
 		return nil, err
